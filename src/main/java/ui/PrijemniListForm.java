@@ -2,21 +2,20 @@ package ui;
 
 import controller.PrijemniListController;
 import domain.entities.PrijemniList;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-public class PrijemniListForm extends javax.swing.JFrame {
+public class PrijemniListForm extends JFrame {
 
-    List<PrijemniList> prijemniListList;
-    PrijemniListController controller;
+    private List<PrijemniList> prijemniListList;
+    private PrijemniListController controller;
 
     private JTable tablePrijemniList;
-    private JButton btnDodaj;
-    private JButton btnIzmeni;
     private JLabel lblNaslov;
 
     public PrijemniListForm() {
@@ -25,7 +24,7 @@ public class PrijemniListForm extends javax.swing.JFrame {
 
         initComponents();
         setTitle("Prijemni list");
-        setSize(1000, 500);
+        setSize(950, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
@@ -36,65 +35,64 @@ public class PrijemniListForm extends javax.swing.JFrame {
         lblNaslov = new JLabel("Pregled prijemnih listova");
         lblNaslov.setFont(new Font("Arial", Font.BOLD, 18));
         lblNaslov.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        lblNaslov.setHorizontalAlignment(SwingConstants.LEFT);
         add(lblNaslov, BorderLayout.NORTH);
 
         tablePrijemniList = new JTable();
         JScrollPane scrollPane = new JScrollPane(tablePrijemniList);
-        scrollPane.setPreferredSize(new Dimension(800, 200));
+        scrollPane.setPreferredSize(new Dimension(850, 200));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JPanel pnlTabela = new JPanel(new BorderLayout());
-        pnlTabela.add(scrollPane, BorderLayout.WEST);
+        JPanel pnlTabela = new JPanel();
+        pnlTabela.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        pnlTabela.add(scrollPane);
         pnlTabela.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-        JPanel pnlDugmici = new JPanel();
-        pnlDugmici.setLayout(new BoxLayout(pnlDugmici, BoxLayout.Y_AXIS));
-
-        btnDodaj = new JButton("Dodaj");
-        btnIzmeni = new JButton("Izmeni");
-
-        btnDodaj.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnIzmeni.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        pnlDugmici.add(btnDodaj);
-        pnlDugmici.add(Box.createRigidArea(new Dimension(0, 10)));
-        pnlDugmici.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 20));
-        pnlDugmici.add(btnIzmeni);
-
-        JPanel pnlCenter = new JPanel(new BorderLayout());
-        pnlCenter.add(pnlTabela, BorderLayout.CENTER);
-        pnlCenter.add(pnlDugmici, BorderLayout.EAST);
-
-        add(pnlCenter, BorderLayout.CENTER);
+        add(pnlTabela, BorderLayout.WEST);
 
         try {
-            ucitajArtikle();
+            ucitajPrijemneListove();
             popuniTabelu();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Greška pri učitavanju liste prijemnih listova: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Greška pri učitavanju prijemnih listova: " + e.getMessage());
         }
 
-        btnDodaj.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "Ovde će biti forma za dodavanje pl.");
+        tablePrijemniList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int red = tablePrijemniList.getSelectedRow();
+                    if (red >= 0) {
+                        PrijemniList pl = prijemniListList.get(red);
+                        StavkaPLForm stavkeForm = new StavkaPLForm(pl, PrijemniListForm.this);
+                        stavkeForm.setVisible(true);
+                    }
+                }
+            }
         });
     }
 
-    private void ucitajArtikle() throws Exception {
+    public void ucitajPrijemneListove() throws Exception {
         prijemniListList = controller.getAllPrijemniListovi();
     }
 
-    private void popuniTabelu() {
-        String[] kolone = {"Prijemni list Id", "Datum od", "Osnov", "Komentar", "Dostavnica", "Radnik"};
-        DefaultTableModel model = new DefaultTableModel(kolone, 0);
+    public void popuniTabelu() {
+        String[] kolone = {"Prijemni list Id", "Datum od", "Osnov", "Komentar", "Dostavnica", "Radnik", "Ukupno Stavki"};
+        DefaultTableModel model = new DefaultTableModel(kolone, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // sve kolone su neizmenljive
+            }
+        };
 
         for (PrijemniList pl : prijemniListList) {
             Object[] red = {
-               pl.getPrijemniListId(),
+                    pl.getPrijemniListId(),
                     pl.getDatumOd(),
                     pl.getOsnov(),
                     pl.getKomentar(),
                     pl.getDostavnica(),
-                    pl.getRadnik()
-
+                    pl.getRadnik(),
+                    pl.getUkupnoStavki()
             };
             model.addRow(red);
         }
