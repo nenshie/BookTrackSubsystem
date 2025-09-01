@@ -3,7 +3,6 @@ package services;
 import database.DatabaseBroker;
 import database.DatabaseConnection;
 import domain.entities.ReklamacioniList;
-import domain.entities.DetaljiReklamacionogLista;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,22 +19,8 @@ public class ReklamacioniListService {
     }
 
     public int add(ReklamacioniList list) throws SQLException {
-        // Insert parametri se postavljaju u ReklamacioniList entitetu
         return dbBroker.insert(list, null);
     }
-
-//    public int update(ReklamacioniList list) throws SQLException {
-//        // Kreiranje parametara za update (osim ključa)
-//        List<Object> paramsForUpdate = List.of(
-//                list.getDetalji(),
-//                list.getPrijemniList(),
-//                list.getRadnik(),
-//                list.getArtikal(),
-//                list.getTipResenja()
-//        );
-//        List<Object> paramsForWhere = List.of(list.getReklamacioniListId());
-//        return dbBroker.update(list, paramsForUpdate, paramsForWhere);
-//    }
 
     public int update(ReklamacioniList list) throws SQLException {
         String sql = "UPDATE " + list.getTableName() +

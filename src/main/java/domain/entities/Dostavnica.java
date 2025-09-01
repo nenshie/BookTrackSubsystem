@@ -76,7 +76,6 @@ public class Dostavnica extends DomainObject {
     public int getValuta() { return valuta; }
     public void setValuta(int valuta) { this.valuta = valuta; }
 
-    // ================= DOMAIN OBJECT =================
 
     @Override
     public String getTableName() {

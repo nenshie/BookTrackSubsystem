@@ -1,8 +1,8 @@
 package ui;
 
-import domain.entities.Zaliha;
 import domain.entities.Artikal;
 import domain.entities.Magacin;
+import domain.entities.Zaliha;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,47 +29,40 @@ public class ZalihaDialog extends JDialog {
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.HORIZONTAL;
 
-        // Magacin
         gc.gridx = 0; gc.gridy = 0;
         add(new JLabel("Magacin:"), gc);
         gc.gridx = 1;
         for (Magacin m : magacini) cmbMagacin.addItem(m);
         add(cmbMagacin, gc);
 
-        // Artikal
         gc.gridx = 0; gc.gridy = 1;
         add(new JLabel("Artikal:"), gc);
         gc.gridx = 1;
         for (Artikal a : artikli) cmbArtikal.addItem(a);
         add(cmbArtikal, gc);
 
-        // Cena
         gc.gridx = 0; gc.gridy = 2;
         add(new JLabel("Prosečna nabavna cena:"), gc);
         gc.gridx = 1;
         add(txtCena, gc);
 
-        // Kolicina
         gc.gridx = 0; gc.gridy = 3;
         add(new JLabel("Raspoloživa količina:"), gc);
         gc.gridx = 1;
         add(txtKolicina, gc);
 
-        // Naziv magacina (readonly)
         gc.gridx = 0; gc.gridy = 4;
         add(new JLabel("Naziv magacina:"), gc);
         gc.gridx = 1;
         txtNaziv.setEnabled(false);
         add(txtNaziv, gc);
 
-        // Naziv artikla (readonly)
         gc.gridx = 0; gc.gridy = 5;
         add(new JLabel("Naziv artikla:"), gc);
         gc.gridx = 1;
         txtNazivArtikla.setEnabled(false);
         add(txtNazivArtikla, gc);
 
-        // Fill name fields when selection changes
         cmbMagacin.addActionListener(e -> {
             Magacin m = (Magacin) cmbMagacin.getSelectedItem();
             if (m != null) txtNaziv.setText(m.getNaziv());
@@ -79,7 +72,6 @@ public class ZalihaDialog extends JDialog {
             if (a != null) txtNazivArtikla.setText(a.getNaziv());
         });
 
-        // Buttons
         JButton btnOk = new JButton("OK");
         btnOk.addActionListener(e -> {
             try {

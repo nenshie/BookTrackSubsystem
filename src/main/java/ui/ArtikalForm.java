@@ -23,7 +23,6 @@ public class ArtikalForm extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout(10, 10));
 
-        // Top panel with search
         JPanel topPanel = new JPanel(new BorderLayout(5, 5));
         JLabel lblSearch = new JLabel("Pretraga po nazivu:");
         txtSearch = new JTextField();
@@ -33,7 +32,6 @@ public class ArtikalForm extends JFrame {
         topPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
         add(topPanel, BorderLayout.NORTH);
 
-        // Table
         model = new DefaultTableModel(new String[]{"ID", "Naziv", "Barkod", "Jedinica Mere"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {

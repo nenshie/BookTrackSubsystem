@@ -1,35 +1,20 @@
 package controller;
 
-import domain.entities.Magacin;
-import domain.entities.Zaliha;
 import domain.entities.Artikal;
-import services.MagacinService;
-import services.ZalihaService;
+import domain.entities.Zaliha;
 import services.ArtikalService;
+import services.ZalihaService;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class ZalihaController {
     private final ZalihaService zalihaService;
-    private final MagacinService magacinService;
     private final ArtikalService artikalService;
 
     public ZalihaController() {
         this.zalihaService = new ZalihaService();
-        this.magacinService = new MagacinService();
         this.artikalService = new ArtikalService();
-    }
-    public boolean updateMagacinNaziv(int magacinId, String noviNaziv) throws SQLException {
-        Magacin m = new Magacin();
-        m.setMagacinId(magacinId);
-        m.setNaziv(noviNaziv);
-        // Parametri za ažuriranje - samo naziv ide u SET deo
-        List<Object> updateParams = List.of(noviNaziv);
-        // Parametri za WHERE deo - id magacina
-        List<Object> whereParams = List.of(magacinId);
-        int affected = magacinService.update(m, updateParams, whereParams);
-        return affected > 0;
     }
 
     public List<Zaliha> getAllZaliheWithArtikalNaziv() throws SQLException {

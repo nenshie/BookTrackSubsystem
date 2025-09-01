@@ -29,7 +29,6 @@ public class ArtikalDialog extends JDialog {
         gc.insets = new Insets(5, 5, 5, 5);
         gc.fill = GridBagConstraints.HORIZONTAL;
 
-        // ID field (non-editable)
         txtId = new JTextField(String.valueOf(artikal.getArtikalId()));
         txtId.setEditable(false);
         gc.gridx = 0; gc.gridy = 0;
@@ -37,28 +36,24 @@ public class ArtikalDialog extends JDialog {
         gc.gridx = 1;
         panel.add(txtId, gc);
 
-        // Naziv
         txtNaziv = new JTextField(20);
         gc.gridx = 0; gc.gridy = 1;
         panel.add(new JLabel("Naziv:"), gc);
         gc.gridx = 1;
         panel.add(txtNaziv, gc);
 
-        // Barkod
         txtBarkod = new JTextField(20);
         gc.gridx = 0; gc.gridy = 2;
         panel.add(new JLabel("Barkod:"), gc);
         gc.gridx = 1;
         panel.add(txtBarkod, gc);
 
-        // Jedinica mere
         txtJedinicaMere = new JTextField(20);
         gc.gridx = 0; gc.gridy = 3;
         panel.add(new JLabel("Jedinica mere:"), gc);
         gc.gridx = 1;
         panel.add(txtJedinicaMere, gc);
 
-        // Buttons panel
         JButton btnOk = new JButton("Sačuvaj");
         btnOk.addActionListener(e -> onSave());
         JButton btnCancel = new JButton("Otkaži");
@@ -71,13 +66,11 @@ public class ArtikalDialog extends JDialog {
         gc.gridx = 0; gc.gridy = 4; gc.gridwidth = 2;
         panel.add(buttons, gc);
 
-        // Keyboard shortcuts
         getRootPane().setDefaultButton(btnOk);
         panel.registerKeyboardAction(e -> onCancel(),
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
-        // Focus first field
         SwingUtilities.invokeLater(txtNaziv::requestFocus);
 
         pack();

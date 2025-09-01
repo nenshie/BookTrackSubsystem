@@ -39,7 +39,4 @@ public class MagacinService extends BaseService<Magacin> {
         return getAll();
     }
 
-//    public Magacin getMagacinById(int magacinId) throws SQLException {
-//        return getById(magacinId);
-//    }
 }

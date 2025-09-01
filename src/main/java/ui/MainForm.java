@@ -1,7 +1,5 @@
 package ui;
 
-import domain.entities.Magacin;
-
 import javax.swing.*;
 import java.sql.SQLException;
 

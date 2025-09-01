@@ -5,7 +5,10 @@ import database.DatabaseConnection;
 import domain.entities.Artikal;
 import oracle.jdbc.OracleTypes;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +51,7 @@ public class ArtikalService {
 
     public List<String> getSveJediniceMere() throws SQLException {
         List<String> lista = new ArrayList<>();
-        String sql = "{ ? = call get_jedinice_mere() }"; // ref cursor
+        String sql = "{ ? = call get_jedinice_mere() }";
         try (Connection conn = DatabaseConnection.getConnection();
              CallableStatement cs = conn.prepareCall(sql)) {
 

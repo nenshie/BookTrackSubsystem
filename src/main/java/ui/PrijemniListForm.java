@@ -1,8 +1,6 @@
 package ui;
 
-import controller.DostavnicaController;
 import controller.PrijemniListController;
-import domain.entities.Dostavnica;
 import domain.entities.PrijemniList;
 
 import javax.swing.*;

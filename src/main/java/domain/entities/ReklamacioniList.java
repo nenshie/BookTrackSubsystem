@@ -1,9 +1,11 @@
 package domain.entities;
 
 import domain.DomainObject;
-import domain.entities.DetaljiReklamacionogLista;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,6 @@ public class ReklamacioniList extends DomainObject {
         this.tipResenja = tipResenja;
     }
 
-    // Getteri i setteri
 
     public int getReklamacioniListId() { return reklamacioniListId; }
     public void setReklamacioniListId(int reklamacioniListId) { this.reklamacioniListId = reklamacioniListId; }
@@ -70,8 +71,7 @@ public class ReklamacioniList extends DomainObject {
     @Override
     public void setInsertParameters(PreparedStatement ps, int startIndex) throws SQLException {
         ps.setInt(startIndex, reklamacioniListId);
-        // Za KDT detalji, koristi STRUCT ili tekstualnu konverziju u zavisnosti od JDBC podrške:
-        // Ovo primer koristi setObject, a u Oracle treba podesiti STRUCT tip
+
         ps.setObject(startIndex + 1, mapDetaljiToStruct(ps.getConnection(), detalji));
         ps.setInt(startIndex + 2, prijemniList);
         ps.setInt(startIndex + 3, radnik);
@@ -124,8 +124,6 @@ public class ReklamacioniList extends DomainObject {
     public String getOrderByColumn() {
         return "reklamacioniListId";
     }
-
-    // Helper metode za mapiranje između STRUCT i objekta
 
     private java.sql.Struct mapDetaljiToStruct(Connection conn, DetaljiReklamacionogLista d) throws SQLException {
         if (d == null) return null;

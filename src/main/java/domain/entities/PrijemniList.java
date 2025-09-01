@@ -30,7 +30,6 @@ public class PrijemniList extends DomainObject {
         this.ukupnoStavki = ukupnoStavki;
     }
 
-    // Getteri i setteri
 
     public int getPrijemniListId() { return prijemniListId; }
     public void setPrijemniListId(int prijemniListId) { this.prijemniListId = prijemniListId; }

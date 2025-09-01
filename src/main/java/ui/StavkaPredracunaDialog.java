@@ -30,7 +30,6 @@ public class StavkaPredracunaDialog extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        // Form panel
         JPanel formPanel = new JPanel(new GridLayout(7, 2, 5, 5));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -61,7 +60,6 @@ public class StavkaPredracunaDialog extends JDialog {
 
         add(formPanel, BorderLayout.CENTER);
 
-        // Popuni naziv i barkod kada se promeni artikal
         cbArtikal.addActionListener(e -> {
             Artikal a = (Artikal) cbArtikal.getSelectedItem();
             if (a != null) {
@@ -70,7 +68,6 @@ public class StavkaPredracunaDialog extends JDialog {
             }
         });
 
-        // Buttons
         JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnOk = new JButton("Dodaj");
         JButton btnCancel = new JButton("Otkaži");

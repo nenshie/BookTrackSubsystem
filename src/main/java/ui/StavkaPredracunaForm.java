@@ -39,7 +39,7 @@ public class StavkaPredracunaForm extends JFrame {
         model = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
-                return col == 5 || col == 6; // samo naziv i barkod mogu da se menjaju
+                return col == 5 || col == 6;
             }
         };
 

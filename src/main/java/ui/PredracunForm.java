@@ -23,11 +23,10 @@ public class PredracunForm extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        // Panel sa filterom
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         topPanel.add(new JLabel("Filtriraj po particiji:"));
         cbPartitions = new JComboBox<>();
-        cbPartitions.addItem("Sve"); // prva opcija, vrati sve
+        cbPartitions.addItem("Sve");
         for (String part : controller.getAllPartitions()) {
             cbPartitions.addItem(part);
         }
@@ -48,12 +47,11 @@ public class PredracunForm extends JFrame {
         topPanel.add(btnFilter);
         add(topPanel, BorderLayout.NORTH);
 
-        // Tabela
         String[] columns = {"Broj", "Datum", "Odgovorni radnik", "Radnik kreirao", "Dobavljac", "Ulica", "Mesto", "Broj"};
         model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int col) {
-                return false; // tabela nije editable
+                return false;
             }
         };
         table = new JTable(model);
@@ -61,14 +59,12 @@ public class PredracunForm extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Dugme za otvaranje stavki selektovanog predračuna
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnOpenStavke = new JButton("Otvori stavke selektovanog predračuna");
         btnOpenStavke.addActionListener(e -> openStavke());
         bottomPanel.add(btnOpenStavke);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        // Učitavanje svih predračuna po default
         loadAllPredracuni();
     }
 
