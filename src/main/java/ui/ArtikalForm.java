@@ -83,9 +83,24 @@ public class ArtikalForm extends JFrame {
         btnAdd.addActionListener(e -> dodajArtikal());
         btnPanel.add(btnRefresh);
         btnPanel.add(btnAdd);
+        JButton btnDodajJedinicu = new JButton("Dodaj jedinicu mere");
+        btnDodajJedinicu.addActionListener(e -> {
+            try {
+                java.util.List<String> sveJedinice = controller.getSveJediniceMere();
+                JedinicaMereDialog dialog = new JedinicaMereDialog(this, sveJedinice);
+                dialog.setVisible(true);
+
+                if(dialog.isSucceeded()){
+                    loadArtikli();
+                }
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(this, "Greška: " + ex.getMessage(), "Greška", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        btnPanel.add(btnDodajJedinicu);
+        btnPanel.add(btnDodajJedinicu);
         add(btnPanel, BorderLayout.SOUTH);
 
-        // Load table initially
         loadArtikli();
     }
 

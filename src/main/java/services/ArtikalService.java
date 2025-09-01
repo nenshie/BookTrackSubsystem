@@ -3,9 +3,10 @@ package services;
 import database.DatabaseBroker;
 import database.DatabaseConnection;
 import domain.entities.Artikal;
+import oracle.jdbc.OracleTypes;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ArtikalService {
@@ -43,5 +44,32 @@ public class ArtikalService {
 
     public List<Artikal> searchByName(String name) throws SQLException {
         return dbBroker.getByColumn(new Artikal(), "naziv", "%" + name + "%");
+    }
+
+    public List<String> getSveJediniceMere() throws SQLException {
+        List<String> lista = new ArrayList<>();
+        String sql = "{ ? = call get_jedinice_mere() }"; // ref cursor
+        try (Connection conn = DatabaseConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                while (rs.next()) {
+                    lista.add(rs.getString("JEDINICA"));
+                }
+            }
+        }
+        return lista;
+    }
+
+
+    public void dodajJedinicuMere(String novaJedinica) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall("{call dodaj_jedinicu_mere(?)}");
+            cs.setString(1, novaJedinica);
+            cs.execute();
+        }
     }
 }

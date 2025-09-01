@@ -28,5 +28,14 @@ public class ArtikalController {
     public List<Artikal> searchArtikli(String name) throws SQLException {
         return service.searchByName(name);
     }
+
+    public List<String> getSveJediniceMere() throws SQLException {
+        return service.getSveJediniceMere();
+    }
+
+    public void dodajJedinicuMere(String novaJedinica) throws SQLException {
+        service.dodajJedinicuMere(novaJedinica);
+    }
+
 }
 
