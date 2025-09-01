@@ -2,13 +2,13 @@ package ui;
 
 import controller.PrijemniListController;
 import domain.entities.PrijemniList;
+
+import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 
 public class PrijemniListForm extends JFrame {
 
@@ -56,16 +56,26 @@ public class PrijemniListForm extends JFrame {
             JOptionPane.showMessageDialog(this, "Greška pri učitavanju prijemnih listova: " + e.getMessage());
         }
 
-        tablePrijemniList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    int red = tablePrijemniList.getSelectedRow();
-                    if (red >= 0) {
-                        PrijemniList pl = prijemniListList.get(red);
-                        StavkaPLForm stavkeForm = new StavkaPLForm(pl, PrijemniListForm.this);
-                        stavkeForm.setVisible(true);
-                    }
+        tablePrijemniList.getModel().addTableModelListener(e -> {
+            if (e.getType() == TableModelEvent.UPDATE && e.getColumn() == 6) {
+                int red = e.getFirstRow();
+                try {
+                    DefaultTableModel model = (DefaultTableModel) tablePrijemniList.getModel();
+                    int novaVrednost = Integer.parseInt(model.getValueAt(red, 6).toString());
+
+                    PrijemniList pl = prijemniListList.get(red);
+                    pl.setUkupnoStavki(novaVrednost);
+
+                    controller.updatePrijemniList(pl);
+
+                    ucitajPrijemneListove();
+                    popuniTabelu();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, "Greška: " + ex.getMessage());
+                    try {
+                        ucitajPrijemneListove();
+                        popuniTabelu();
+                    } catch (Exception ignored) {}
                 }
             }
         });
@@ -80,7 +90,7 @@ public class PrijemniListForm extends JFrame {
         DefaultTableModel model = new DefaultTableModel(kolone, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // sve kolone su neizmenljive
+                return column == 6;
             }
         };
 
