@@ -79,6 +79,20 @@ public class PrijemniListForm extends JFrame {
                 }
             }
         });
+
+        tablePrijemniList.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    int selectedRow = tablePrijemniList.getSelectedRow();
+                    if (selectedRow >= 0) {
+                        PrijemniList pl = prijemniListList.get(selectedRow);
+                        StavkaPLForm stavkaForm = new StavkaPLForm(pl, PrijemniListForm.this);
+                        stavkaForm.setVisible(true);
+                    }
+                }
+            }
+        });
     }
 
     public void ucitajPrijemneListove() throws Exception {
